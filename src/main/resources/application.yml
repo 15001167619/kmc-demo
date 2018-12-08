@@ -1,0 +1,66 @@
+###################  项目启动端口  ###################
+server:
+  port: 6688
+
+###################  spring配置  ###################
+spring:
+  profiles:
+    active: dev
+
+###################  mybatis-plus配置  ###################
+mybatis-plus:
+  mapper-locations: classpath*:com/zkhc/foot/data/modules/dao/mappings/*.xml
+  typeAliasesPackage: com.zkhc.foot.data.modules.entity
+  global-config:
+    id-type: 0  # 0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    db-column-underline: true #驼峰下划线转换
+    refresh-mapper: true #刷新mapper
+    logic-delete-value: 0
+    logic-not-delete-value: 1
+    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true #配置的缓存的全局开关
+    lazyLoadingEnabled: true #延时加载的开关
+    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+
+---
+
+#####################################################################
+########################  开发环境profile  ##########################
+#####################################################################
+spring:
+  profiles: dev
+  datasource:
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://zkhc.public.server:548/product_admin?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: root.zkhcDB.0501
+        # 配置初始化大小、最小、最大
+        initial-size: 5
+        min-idle: 5
+        max-active: 20
+        #配置获取连接等待超时的时间
+        max-wait: 60000
+        #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        time-between-eviction-runs-millis: 60000
+        #配置一个连接在池中最小生存的时间，单位是毫秒
+        min-evictable-idle-time-millis: 300000
+        #测试连接
+        validation-query: SELECT 1 FROM DUAL
+        #申请连接的时候检测，建议配置为true，不影响性能，并且保证安全性
+        test-while-idle: true
+        #获取连接时执行检测，建议关闭，影响性能
+        test-on-borrow: false
+        #归还连接时执行检测，建议关闭，影响性能
+        test-on-return: false
+        #是否开启PSCache，PSCache对支持游标的数据库性能提升巨大，oracle建议开启，mysql下建议关闭
+        pool-prepared-statements: false
+        #开启poolPreparedStatements后生效
+        max-pool-prepared-statement-per-connection-size: 20
+        #配置扩展插件，常用的插件有=>stat:监控统计  log4j:日志  wall:防御sql注入
+        filters: stat,wall,log4j2
+        # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zkhc.foot.data.modules.dao.ReportMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zkhc.foot.data.modules.entity.Report">
+        <id column="id" property="id" />
+        <result column="patient_code" property="patientCode" />
+        <result column="patient_name" property="patientName" />
+        <result column="unique_code" property="uniqueCode" />
+        <result column="qr_code" property="qrCode" />
+        <result column="left_data_url" property="leftDataUrl" />
+        <result column="right_data_url" property="rightDataUrl" />
+        <result column="data_content" property="dataContent" />
+        <result column="hospital_name" property="hospitalName" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,patient_code,patient_name,unique_code,qr_code,left_data_url,right_data_url,data_content,hospital_name,create_time
+    </sql>
+</mapper>
