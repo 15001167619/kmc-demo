@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.zkhc.foot.data.common.ReportDataUtils;
+import com.zkhc.foot.data.common.ReportZipUtils;
 import com.zkhc.foot.data.config.constants.SystemConstants;
 import com.zkhc.foot.data.modules.dao.ReportMapper;
 import com.zkhc.foot.data.modules.entity.Report;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -37,8 +39,6 @@ public class ReportServiceImpl extends ServiceImpl<ReportMapper, Report> impleme
         this.reportMapper = reportMapper;
     }
 
-
-
     @Override
     public void generateReportData(String args) {
         boolean flag;
@@ -49,7 +49,8 @@ public class ReportServiceImpl extends ServiceImpl<ReportMapper, Report> impleme
             ew.between("create_time", LocalDateTime.of(LocalDate.now(), LocalTime.MIN), LocalDateTime.of(LocalDate.now(), LocalTime.MAX));
             List<Report> originalReportList = reportMapper.selectList(ew);
             //初始化根目录
-            String reportDataBaseFileName = "数据报告采集_"+LocalDateTime.of(LocalDate.now(), LocalTime.MIN).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            String newDay = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            String reportDataBaseFileName = "数据报告采集_"+ newDay;
             reportDataBaseFileName = SystemConstants.basePath + reportDataBaseFileName;
             final String baseDirPath = reportDataBaseFileName + "//";
             flag = ReportDataUtils.createDirs(baseDirPath);
@@ -74,6 +75,8 @@ public class ReportServiceImpl extends ServiceImpl<ReportMapper, Report> impleme
                 });
                 log.info("---------------end----------------");
             }
+            File file = ReportZipUtils.zipFile(new File(reportDataBaseFileName), "数据报告采集_"+newDay);
+            log.info("---------->  文件压缩路径"+file.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
         }
