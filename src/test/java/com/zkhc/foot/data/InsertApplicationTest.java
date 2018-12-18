@@ -34,12 +34,6 @@ public class InsertApplicationTest {
     private List<ZnkfHospital> getHospitalList(){
         List<ZnkfHospital> hospitalList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            ZnkfHospital hospital = ZnkfHospital.builder()
-                    .hospitalName("hospital_name")
-                    .hospitalType("hospital_type")
-                    .hospitalLevel("hospital_level")
-                    .build();
-            hospitalList.add(hospital);
         }
         return hospitalList;
     }

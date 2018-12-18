@@ -17,8 +17,8 @@ public class ZnkfHospital {
 
     private Integer id;
     private String hospitalName;
-    private String hospitalType;
-    private String hospitalLevel;
+    private Integer hospitalType;
+    private Integer hospitalLevel;
     private Integer weight;
     private String province;
     private String city;

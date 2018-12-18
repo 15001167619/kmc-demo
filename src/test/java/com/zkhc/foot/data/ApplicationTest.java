@@ -106,8 +106,8 @@ public class ApplicationTest {
                 address = tds.get(6).text();
                 ZnkfHospital hospital = ZnkfHospital.builder()
                         .hospitalName(hospitalName)
-                        .hospitalType(hospitalType)
-                        .hospitalLevel(hospitalLevel)
+//                        .hospitalType(hospitalType)
+//                        .hospitalLevel(hospitalLevel)
                         .province(province)
                         .city(city)
                         .area(area)
