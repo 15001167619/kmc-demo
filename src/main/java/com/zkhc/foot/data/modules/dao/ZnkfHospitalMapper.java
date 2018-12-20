@@ -8,7 +8,7 @@ import java.util.List;
  * @author 武海升
  * @date 2018/12/18 12:58
  */
-public interface ZnkfHospitalMapper {
+public interface ZnkfHospitalMapper{
     /**
      * 批量插入医院
      * @param hospitalList
