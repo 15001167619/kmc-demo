@@ -15,5 +15,11 @@ public interface ZnkfHospitalMapper {
      * @return
      */
     int insertHospitalBatch(List<ZnkfHospital> hospitalList);
+    /**
+     * 批量插入医院
+     * @param hospital
+     * @return
+     */
+    int insertHospital(ZnkfHospital hospital);
 
 }

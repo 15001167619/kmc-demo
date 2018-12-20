@@ -30,24 +30,35 @@ public class MyApplicationTest {
     private ZnkfHospitalMapper znkfHospitalMapper;
 
     private static String hospitalUrl = "https://db.yaozh.com/hmap/hospitalId.html";
-    private static Integer pageSize = 81174;
+    private static Integer pageSize = 81175;//64066  67920  区间再测一测;
+    private static Integer pageMaxSize = 89174;//81174;82245
 
 
     @Test
     public void initHospitalData() {
-        for (int i = 515; i <= pageSize; i++) {
-            String pageUrl = hospitalUrl.replace("hospitalId", String.valueOf(i));
-            Document doc = getDocumentInfo(pageUrl);
-            List<ZnkfHospital> hospitalList = getHospitalList(doc);
-            if(hospitalList!=null && hospitalList.size()!=0){
-               znkfHospitalMapper.insertHospitalBatch(hospitalList);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
+        List<Document> documentList = new ArrayList<>();
+        int sum = 0;
+        for (int i = pageSize; i <= pageMaxSize; i++) {
 
+            String pageUrl = hospitalUrl.replace("hospitalId", String.valueOf(71605));
+            Document doc = getDocumentInfo(pageUrl);
+            Elements hospitalInfoTable = doc.select("table").select("tr");
+            if(hospitalInfoTable.size()==0){
+                System.out.println("-------未找到医院-------["+i+"]");
+                continue;
+            }
+            sum++;
+            documentList.add(doc);
+            if(sum==100){
+                List<ZnkfHospital> hospitalList = getHospitalList(documentList);
+                sum = 0;
+                pageSize = i;
+                System.out.println("-------已经执行到-------["+i+"]");
+                documentList.clear();
+                if(hospitalList.size()!=0){
+                   znkfHospitalMapper.insertHospitalBatch(hospitalList);
                 }
             }
-
         }
     }
 
@@ -69,8 +80,19 @@ public class MyApplicationTest {
         return doc;
     }
 
-    private static List<ZnkfHospital> getHospitalList(Document hospitalInfoDoc){
+    private static List<ZnkfHospital> getHospitalList(List<Document> documents){
         List<ZnkfHospital> hospitalList = new ArrayList<>();
+        for (Document doc : documents) {
+            ZnkfHospital hospitalInfo = getHospitalInfo(doc);
+            if(hospitalInfo!=null){
+                hospitalList.add(hospitalInfo);
+            }
+        }
+        return hospitalList;
+
+    }
+
+    private static ZnkfHospital getHospitalInfo(Document hospitalInfoDoc){
         String hospitalName = null;
         String hospitalType = null;
         String hospitalLevel = null;
@@ -113,10 +135,10 @@ public class MyApplicationTest {
                     .address(address)
                     .telephone(telephone)
                     .build();
-            hospitalList.add(hospital);
+            return hospital;
         }
 
-        return hospitalList;
+        return null;
     }
 
     private static Integer getType(String hospitalType){

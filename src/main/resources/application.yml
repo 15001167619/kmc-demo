@@ -35,7 +35,7 @@ spring:
       type: com.alibaba.druid.pool.DruidDataSource
       druid:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://zkhc.public.server:548/znkf_new?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://zkhc.public.server:548/local_test?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=Asia/Shanghai
         username: root
         password: root.zkhcDB.0501
         # 配置初始化大小、最小、最大

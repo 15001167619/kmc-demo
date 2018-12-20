@@ -20,5 +20,21 @@
             )
         </foreach >
     </insert >
+    <!-- 插入医院信息 -->
+    <insert id ="insertHospital" parameterType="com.zkhc.foot.data.modules.entity.ZnkfHospital" >
+        insert into znkf_hospital
+        (hospital_name, hospital_type, hospital_level, province,city,area,address,telephone)
+        values
+         (
+            #{hospitalName},
+            #{hospitalType},
+            #{hospitalLevel},
+            #{province},
+            #{city},
+            #{area},
+            #{address},
+            #{telephone}
+            )
+    </insert >
 
 </mapper>
